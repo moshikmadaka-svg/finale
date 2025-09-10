@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Online Delivery Dashboard</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f2f4f8;
+      margin: 0;
+      padding: 20px;
+    }
+
+    .dashboard {
+      max-width: 1000px;
+      margin: auto;
+      background: #fff;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 30px;
+      color: #333;
+    }
+
+    .search-bar {
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    .search-bar input {
+      width: 60%;
+      padding: 10px;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+    }
+
+    th, td {
+      text-align: left;
+      padding: 12px;
+      border-bottom: 1px solid #ddd;
+    }
+
+    th {
+      background-color: #f8f9fa;
+      color: #333;
+    }
+
+    tr:hover {
+      background-color: #f1f1f1;
+    }
+
+    .status-available {
+      color: green;
+      font-weight: bold;
+    }
+
+    .status-unavailable {
+      color: red;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="dashboard">
+    <h1>Online Delivery - Item Dashboard</h1>
+
+    <div class="search-bar">
+      <input type="text" id="searchInput" placeholder="Search for items..." onkeyup="filterItems()">
+    </div>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Item</th>
+          <th>Category</th>
+          <th>Price</th>
+          <th>Availability</th>
+        </tr>
+      </thead>
+      <tbody id="itemTable">
+        <!-- Items will be inserted here -->
+      </tbody>
+    </table>
+  </div>
+
+  <script>
+    // Sample item data
+    const items = [
+      { name: "Cheese Pizza", category: "Food", price: "$12.99", available: true },
+      { name: "Veg Biryani", category: "Food", price: "$9.49", available: true },
+      { name: "Coca-Cola", category: "Beverage", price: "$1.99", available: false },
+      { name: "Chocolate Cake", category: "Dessert", price: "$6.75", available: true },
+      { name: "Chicken Wings", category: "Food", price: "$10.99", available: false },
+      { name: "Orange Juice", category: "Beverage", price: "$2.49", available: true },
+      { name: "Ice Cream", category: "Dessert", price: "$4.50", available: true }
+    ];
+
+    // Function to load item data into the table
+    function loadItems() {
+      const table = document.getElementById("itemTable");
+      table.innerHTML = ""; // Clear any existing data
+
+      items.forEach(item => {
+        const row = document.createElement("tr");
+
+        row.innerHTML = `
+          <td>${item.name}</td>
+          <td>${item.category}</td>
+          <td>${item.price}</td>
+          <td class="${item.available ? 'status-available' : 'status-unavailable'}">
+            ${item.available ? 'Available' : 'Unavailable'}
+          </td>
+        `;
+
+        table.appendChild(row);
+      });
+    }
+
+    // Search filter
+    function filterItems() {
+      const input = document.getElementById("searchInput").value.toLowerCase();
+      const rows = document.getElementById("itemTable").getElementsByTagName("tr");
+
+      for (let i = 0; i < rows.length; i++) {
+        const rowText = rows[i].textContent.toLowerCase();
+        rows[i].style.display = rowText.includes(input) ? "" : "none";
+      }
+    }
+
+    // Load items on page load
+    window.onload = loadItems;
+  </script>
+
+</body>
+</html>
